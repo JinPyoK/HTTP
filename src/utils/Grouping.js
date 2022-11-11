@@ -206,11 +206,12 @@ class getTeams {
     let overTeam = sortStudents.length % teamCount; //학생 수가 안맞을 때, 학생이 1명 더 많은 팀 수
     let NumOfMember = parseInt(sortStudents.length / teamCount); //팀당 학생 수
     //성적 가장 높은 학생 한명씩 넣기
+    
+    let tempteamlist = [];
     for (let i = 0; i < teamCount; i++) {
       let team = new Team();
       team.addStudent(sortStudents.pop());
-      this.teamWeight.unshift(team.getTeamWeight());
-      teamlist.unshift(team.team);
+      tempteamlist.unshift(team);
       TeamHeap.addTeam(team);
     }
     //남은 학생 차례로 넣기
@@ -237,6 +238,17 @@ class getTeams {
         }
       }
     }
+    
+    //최종 팀 총점, 팀 리스트 구하기
+    let FinalTeams = [];
+    for (let i = 0; i < teamCount; i++)
+      {
+        FinalTeams.push(tempteamlist[i].getTeamWeight());
+        FinalTeams.push(tempteamlist[i].team);
+        teamlist.unshift(FinalTeams);
+        FinalTeams = [];
+      }
+    
     return teamlist;
   }
 }
